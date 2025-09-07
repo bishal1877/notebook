@@ -22,25 +22,22 @@ let handlepasswordChange = (e) => {
 let handlesubmit = async (e) => {
   e.preventDefault();
   try {
-
-let response = await axios.get('http://localhost:5000/api/auth/login', {
-  email: email});
-
-if(response.data.length === 0){
-  alert('No user found with this email.');
-  return;
+const hash = bcrypt.hashSync(password, 2);
+console.log(hash)
+let response = await axios.get('http://localhost:3000/login',{params: {
+  email,password:hash}
+  });
+if(response.status === 200){
+  alert('Login successful');
 }
-let user = response.data[0];
-let passwordMatch = await bcrypt.compare(password, user.password);
-if(passwordMatch){
-  
-  alert('Login successful!');
-  window.location.href = '/home';
+else if(response.status==401) {
+  alert('Login failed. Please check your credentials and try again.');
 }
-else{
-  alert('Incorrect credentials. Please try again.');
+else
+{
+  alert('Internal Server Error');
 }
-  } catch (error) {
+} catch (error) {
     console.error('Error during login:', error);
     alert('Login failed. Please check your credentials and try again.');
   }
