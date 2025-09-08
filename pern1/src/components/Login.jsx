@@ -5,7 +5,6 @@ import bcrypt from 'bcryptjs';
 import { useState } from 'react';
 
 
-
 function Login() {
 
 let [email, setEmail] = useState("");
@@ -25,7 +24,7 @@ let handlesubmit = async (e) => {
 const hash = bcrypt.hashSync(password, 2);
 console.log(hash)
 let response = await axios.get('http://localhost:3000/login',{params: {
-  email,password:hash}
+  email,password:password}
   });
 if(response.status === 200){
   alert('Login successful');

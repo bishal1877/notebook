@@ -44,8 +44,7 @@ function Nava() {
           <Typography
             variant="h6"
             noWrap
-            component={RouterLink} // Use RouterLink for the component prop
-            to="/" // Link to the home page
+          
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
@@ -125,16 +124,17 @@ function Nava() {
               <Button
                 key={page}
                 component={RouterLink} // Use RouterLink for the component prop
-                to={`/`} // Link to the correct page
+                to={`/home`} // Link to the correct page
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: 'white', display: 'block' }}
+                
               >
                 {page}
               </Button>
             ))}
           </Box>
           <Box sx={{ flexGrow: 0 }}>
-            <RouterLink to="/login">
+            <RouterLink to="/">
               <Button
                 variant="contained"
                 color="success"
@@ -179,7 +179,7 @@ function Nava() {
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
                   {setting === 'Logout' ?
-                    <RouterLink to="/login" style={{ textDecoration: 'none', color: 'inherit' }}>
+                    <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
                       {setting}
                     </RouterLink>
                 :
