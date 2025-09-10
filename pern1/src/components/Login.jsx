@@ -1,7 +1,6 @@
 import React from 'react';
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import axios from 'axios';
-import bcrypt from 'bcryptjs';
 import { useState } from 'react';
 
 
@@ -21,10 +20,8 @@ let handlepasswordChange = (e) => {
 let handlesubmit = async (e) => {
   e.preventDefault();
   try {
-const hash = bcrypt.hashSync(password, 2);
-console.log(hash)
 let response = await axios.get('http://localhost:3000/login',{params: {
-  email,password:password}
+  email,password}
   });
 if(response.status === 200){
   alert('Login successful');
@@ -36,6 +33,8 @@ else
 {
   alert('Internal Server Error');
 }
+setEmail('');
+setPassword('');
 } catch (error) {
     console.error('Error during login:', error);
     alert('Login failed. Please check your credentials and try again.');
