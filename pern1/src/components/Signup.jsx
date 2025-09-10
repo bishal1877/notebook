@@ -1,5 +1,7 @@
 import React,{useState} from 'react';
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
+import axios from "axios";
+import bcrypt from "bcryptjs";
 
 function Signup() {
 
@@ -32,8 +34,21 @@ let handlechange=(e)=>{
 setform({...form,[e.target.name]:e.target.value});
 }
 
-let handlesubmit=()=>{
-console.log(form)
+let handlesubmit=async (e)=>{
+  e.preventDefault();
+  const hash = bcrypt.hashSync(form.password, 2);
+  console.log(form.password,"  ",hash);
+  form.password=hash;
+  form.cofpass=hash;
+  console.log('ho gya');
+let result=await axios.post('http://localhost:3000/signup',{form});
+  alert(`${result.data.message}`);
+  setform(  {name:'',
+  email:'',
+  password:'',
+  cofpass:''
+  }
+)
 }
 
   return (
