@@ -15,7 +15,9 @@ app.get("/login" ,async (req, res) => {
         console.log(req.query, "  jbygyy ");
     const result = await sql`SELECT password,id FROM usertable WHERE email = ${req.query.email}`;
     console.log(result[0].password,"  hujhg");
- if(bcrypt.compareSync(req.query.password,result[0].password)){
+ //if(bcrypt.compareSync(req.query.password,result[0].password))
+  if(result[0].password==req.query.password)
+  {
     res.status(200).json({ message: "Login successful" ,id:result[0].id});
  }
     else{
