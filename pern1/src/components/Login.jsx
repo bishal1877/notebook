@@ -1,19 +1,32 @@
 import React from 'react';
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import axios from 'axios';
-import { useState } from 'react';
-
+import { useState,useContext,useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Notecontext from './Notescontext.jsx'
 
 function Login() {
-
+  let context=useContext(Notecontext);
+  useEffect(()=>{
+context.setnotes((prevnote) => ({
+  ...prevnote,
+  alert: 0,
+  userid:-1
+}));
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[]);
+  console.log(context,"  jhyuy");
+const navigate=useNavigate();
 let [email, setEmail] = useState("");
 let [password, setPassword] = useState("");
 
 let handleemailChange = (e) => {
+  e.preventDefault();
   setEmail(e.target.value);
 }
 
 let handlepasswordChange = (e) => {
+  e.preventDefault();
   setPassword(e.target.value);
 }
 
@@ -24,7 +37,15 @@ let response = await axios.get('http://localhost:3000/login',{params: {
   email,password}
   });
 if(response.status === 200){
-  alert('Login successful');
+  e.preventDefault();
+  console.log(response);
+  context.notes.userid=response.data.id;
+  console.log(context);
+  context.setnotes((prevnote) => ({
+    ...prevnote,
+    alert: 1
+  }));
+  navigate('/home');
 }
 else if(response.status==401) {
   alert('Login failed. Please check your credentials and try again.');

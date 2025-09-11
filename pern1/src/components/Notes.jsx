@@ -1,11 +1,29 @@
-import React from 'react'
+import React,{useContext,useEffect} from 'react'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import {Link} from 'react-router-dom';
+import {Link,useNavigate} from 'react-router-dom';
 import OutCard from './Outcard';
-
+import Notecontext from "./Notescontext.jsx";
 
 function Notes() {
+let context=useContext(Notecontext);
+let navigate=useNavigate();
+console.log(context,"hbfyfye");
+useEffect(()=>
+{
+if(context.notes.userid==-1)
+  navigate('/');
+else
+{
+setTimeout(() => {
+  context.setnotes((prevnote) => ({
+    ...prevnote,
+    alert: 0,
+  }));
+}, 1500);
+
+}
+},[]);
   return (
     <>
       <h1 style={{ textAlign: "center", fontSize: "x-large", margin: "5vh" }}>
