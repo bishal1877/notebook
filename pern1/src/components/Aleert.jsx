@@ -8,7 +8,6 @@ export default function Aleert() {
 
   return (
     <>
-      {console.log(context)}
       {context.notes.alert > 0 ? (
         <Alert severity={context.notes.alert <3?"success":"error"}>
           {context.notes.props.message}

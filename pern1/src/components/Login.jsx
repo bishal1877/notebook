@@ -51,18 +51,25 @@ if(response.status === 200){
     console.log(context,'   log');
   navigate('/home');
 }
-else if(response.status==401) {
-  alert('Login failed. Please check your credentials and try again.');
-}
-else
-{
-  alert('Internal Server Error');
-}
-setEmail('');
-setPassword('');
-} catch (error) {
-    console.error('Error during login:', error);
-    alert('Login failed. Please check your credentials and try again.');
+} catch {
+ context.setnotes((prevnote) => ({
+   ...prevnote,
+   alert: 3,
+   props: {
+     ...prevnote.props,
+     message: `Error logging in`,
+   },
+ }));
+ setTimeout(() => {
+   context.setnotes((prevnote) => ({
+     ...prevnote,
+     alert: 0,
+   }));
+ }, 2800);
+  }
+  finally{
+setEmail("");
+setPassword("");
   }
 }
 
