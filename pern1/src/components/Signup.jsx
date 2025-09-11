@@ -1,10 +1,14 @@
-import React,{useState} from 'react';
+import React,{useState,useContext} from 'react';
 import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import axios from "axios";
 import bcrypt from "bcryptjs";
+import Notecontext from "./Notescontext.jsx";
+
+
+
 
 function Signup() {
-
+ let context = useContext(Notecontext);
 let [form,setform]=useState({
   name:'',
   email:'',
@@ -42,13 +46,30 @@ let handlesubmit=async (e)=>{
   form.cofpass=hash;
   console.log('ho gya');
 let result=await axios.post('http://localhost:3000/signup',{form});
-  alert(`${result.data.message}`);
-  setform(  {name:'',
+if(result.status==200)
+{
+  context.setnotes((prevnote) => ({
+    ...prevnote,
+    alert: 1,
+    props:{
+      ...prevnote.props,
+      message:"Account created Successfully"
+    }
+  }));
+
+  setTimeout(() => {
+    context.setnotes((prevnote) => ({
+      ...prevnote,
+      alert: 0,
+    }));
+  }, 2800);
+setform(  {name:'',
   email:'',
   password:'',
   cofpass:''
-  }
-)
+  })
+}
+  
 }
 
   return (

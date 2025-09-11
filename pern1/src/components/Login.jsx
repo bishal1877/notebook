@@ -40,11 +40,15 @@ if(response.status === 200){
   e.preventDefault();
   console.log(response);
   context.notes.userid=response.data.id;
-  console.log(context);
   context.setnotes((prevnote) => ({
     ...prevnote,
-    alert: 1
+    alert: 1,
+    props: {
+      ...prevnote.props,
+      message: "Logged in Succesfully."
+    },
   }));
+    console.log(context,'   log');
   navigate('/home');
 }
 else if(response.status==401) {

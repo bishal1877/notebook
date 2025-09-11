@@ -2,7 +2,7 @@ import React,{useContext,useEffect} from 'react'
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import {Link,useNavigate} from 'react-router-dom';
-import OutCard from './Outcard';
+import OutCard from './OutCard';
 import Notecontext from "./Notescontext.jsx";
 
 function Notes() {
@@ -20,9 +20,10 @@ setTimeout(() => {
     ...prevnote,
     alert: 0,
   }));
-}, 1500);
+}, 2800);
 
 }
+// eslint-disable-next-line react-hooks/exhaustive-deps
 },[]);
   return (
     <>
