@@ -1,14 +1,25 @@
-import React, { useState } from "react";
-
+import React, { useState,useContext } from "react";
+import axios from "axios";
 import Button from "@mui/material/Button";
+import Notecontext from "./Notescontext.jsx";
+
 
 export default function Addnotes() {
   let [statetitle, setstatetitle] = useState(1);
-
+  let [notes,setnotes]=useState({
+    title:"",
+    desc:""
+  });
+ let context = useContext(Notecontext);
   let handletitle = (e) => {
    
     if (e.target.value.length === 0) setstatetitle(1);
     else setstatetitle(Math.min(Math.ceil(e.target.value.length / 30),5));
+
+    setnotes((prev)=>({
+   ...prev,
+   title:e.target.value   
+    }))
   };
 
   let [statedesc, setstatedesc] = useState(1);
@@ -18,7 +29,45 @@ export default function Addnotes() {
     if (e.target.value.length === 0) setstatedesc(1);
     else 
       setstatedesc(Math.min(Math.ceil(e.target.value.length / 30),5));
+  setnotes((prev) => ({
+    ...prev,
+    desc: e.target.value,
+  }));
   };
+
+let handlesubmit=async ()=>{
+await axios.post('http://localhost:3000/addnotes',{
+userid:context.notes.userid,
+title:notes.title,desc:notes.desc
+});
+
+let totnot = {
+  content: notes.desc,
+  title: notes.title,
+  notesid: 100000,
+  userid: context.notes.userid
+};
+
+context.setnotes((prevnote) => ({
+  ...prevnote,
+  alert: 1,
+  props: {
+    ...prevnote.props,
+    message: `Item added successfully`,
+  },
+  note:[...prevnote.note,totnot]
+}));
+
+setTimeout(() => {
+  context.setnotes((prevnote) => ({
+    ...prevnote,
+    alert: 0
+  }));
+},2800);
+setnotes(
+    {title:"",
+    desc:""});
+}
 
   return (
     <div
@@ -44,6 +93,7 @@ export default function Addnotes() {
             id="title"
             rows={`${statetitle}`}
             cols="30"
+            value={notes.title}
             placeholder="Enter your title.."
             onChange={handletitle}
             style={{ marginLeft: "1vw", width: "30vw" }}
@@ -59,6 +109,7 @@ export default function Addnotes() {
             id="desc"
             rows={`${statedesc}`}
             cols="30"
+            value={notes.desc}
             placeholder="Enter your note here..."
             onChange={handledesc}
             style={{ marginLeft: "1vw", width: "30vw" }}
@@ -68,6 +119,7 @@ export default function Addnotes() {
           <Button
             variant="contained"
             style={{ marginBottom: "8px", height: "3.5vh", marginLeft: "10px" }}
+            onClick={handlesubmit}
           >
             Submit
           </Button>

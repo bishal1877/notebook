@@ -10,7 +10,7 @@ function OutCard(props) {
 
     return (
       
-    <Box  style={{ width:"max-content"  ,margin:"20px",boxShadow:"2px 2px 10px grey", borderRadius:"10px" ,textAlign:"center"}}> 
+    <Box  style={{ width:"15vw"  ,margin:"20px",boxShadow:"2px 2px 10px grey", borderRadius:"10px" ,textAlign:"center",height:"max-content"}}> 
       <Card variant="outlined">
 <React.Fragment>
     <CardContent>

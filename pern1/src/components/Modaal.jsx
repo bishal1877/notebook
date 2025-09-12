@@ -34,7 +34,7 @@ export default function Modaal(props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6">
-            <span component="h2" > Title:</span> {props.title}
+            {props.title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
             {props.content}

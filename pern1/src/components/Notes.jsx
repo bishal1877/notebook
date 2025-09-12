@@ -1,6 +1,5 @@
-import React,{useContext,useEffect} from 'react'
-import Fab from '@mui/material/Fab';
-import AddIcon from '@mui/icons-material/Add';
+import React,{useContext,useEffect} from 'react';
+import axios from "axios";
 import {Link,useNavigate} from 'react-router-dom';
 import OutCard from './OutCard';
 import Notecontext from "./Notescontext.jsx";
@@ -15,16 +14,27 @@ if(context.notes.userid==-1)
   navigate('/');
 else
 {
-setTimeout(() => {
   context.setnotes((prevnote) => ({
     ...prevnote,
     alert: 0,
   }));
-}, 2800);
 
+  let getnote=async()=>{
+  let nota=await axios.get('http://localhost:3000/getnotes',{params:{
+  id:context.notes.userid
+  }});
+   context.setnotes((prevnote) => ({
+     ...prevnote,
+    note:nota.data.notes,
+   }));
+
+   console.log(context.notes.note,'   dekho',);
 }
+getnote();
+}}
 // eslint-disable-next-line react-hooks/exhaustive-deps
-},[]);
+,[]);
+
   return (
     <>
       <h1 style={{ textAlign: "center", fontSize: "x-large", margin: "5vh" }}>
@@ -39,11 +49,15 @@ setTimeout(() => {
           marginLeft: "3vh",
         }}
       >
-        <OutCard
-          title="hello hby hvtt hbyt hvtt hbh jbyg "
-          content="loremj djbvhrf frhbfry dhfede dehdvetdve dhedbvtede dejdbyedrewd e cuegctecvevceh edtedtevd  "
-        />
- 
+
+        {
+          context.notes.note.map((pot)=>{return <OutCard
+          title={`${pot.title}`}
+          content={`${pot.content}`}
+          key={pot.notesid}
+        />}
+        )
+        }
       </div>
     </>
   );

@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React,{useContext} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -12,12 +12,14 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import Notecontext from './Notescontext'
 import { Link as RouterLink } from 'react-router-dom'; // Import Link and rename to avoid conflict
 
 const pages = ['Home', 'About'];
 const settings = ['Profile', 'Logout'];
 
 function Nava() {
+  let check=useContext(Notecontext);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -44,21 +46,20 @@ function Nava() {
           <Typography
             variant="h6"
             noWrap
-          
             sx={{
               mr: 2,
-              display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
+              display: { xs: "none", md: "flex" },
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             Notebook
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "flex", md: "none" } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -73,17 +74,17 @@ function Nava() {
               id="menu-appbar"
               anchorEl={anchorElNav}
               anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'left',
+                vertical: "bottom",
+                horizontal: "left",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'left',
+                vertical: "top",
+                horizontal: "left",
               }}
               open={Boolean(anchorElNav)}
               onClose={handleCloseNavMenu}
-              sx={{ display: { xs: 'block', md: 'none' } }}
+              sx={{ display: { xs: "block", md: "none" } }}
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={handleCloseNavMenu}>
@@ -91,7 +92,7 @@ function Nava() {
                     {/* Wrap Typography with RouterLink */}
                     <RouterLink
                       to={`/${page.toLowerCase()}`}
-                      style={{ textDecoration: 'none', color: 'inherit' }}
+                      style={{ textDecoration: "none", color: "inherit" }}
                     >
                       {page}
                     </RouterLink>
@@ -100,7 +101,7 @@ function Nava() {
               ))}
             </Menu>
           </Box>
-          <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <AdbIcon sx={{ display: { xs: "flex", md: "none" }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -108,84 +109,90 @@ function Nava() {
             to="/" // Link to the home page
             sx={{
               mr: 2,
-              display: { xs: 'flex', md: 'none' },
+              display: { xs: "flex", md: "none" },
               flexGrow: 1,
-              fontFamily: 'monospace',
+              fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: '.3rem',
-              color: 'inherit',
-              textDecoration: 'none',
+              letterSpacing: ".3rem",
+              color: "inherit",
+              textDecoration: "none",
             }}
           >
             LOGO
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
                 key={page}
                 component={RouterLink} // Use RouterLink for the component prop
                 to={`/home`} // Link to the correct page
                 onClick={handleCloseNavMenu}
-                sx={{ my: 2, color: 'white', display: 'block' }}
-                
+                sx={{ my: 2, color: "white", display: "block" }}
               >
                 {page}
               </Button>
             ))}
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <RouterLink to="/">
-              <Button
-                variant="contained"
-                color="success"
-                style={{ marginInline: '8px' }}
-              >
-                Login
-              </Button>
-            </RouterLink>
-            <RouterLink to="/signup">
-              <Button
-                variant="contained"
-                color="success"
-                style={{ marginInline: '8px' }}
-              >
-                Signup
-              </Button>
-            </RouterLink>
 
-            <Tooltip title="Open settings">
-              <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
-              </IconButton>
-            </Tooltip>
+          <Box sx={{ flexGrow: 0 }}>
+            {check.notes.userid > 0 ? (
+              <Tooltip title="Open settings">
+                <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                </IconButton>
+              </Tooltip>
+            ) : (
+              <>
+                <RouterLink to="/">
+                  <Button
+                    variant="contained"
+                    color="success"
+                    style={{ marginInline: "8px" }}
+                  >
+                    Login
+                  </Button>
+                </RouterLink>
+                <RouterLink to="/signup">
+                  <Button
+                    variant="contained"
+                    color="success"
+                    style={{ marginInline: "8px" }}
+                  >
+                    Signup
+                  </Button>
+                </RouterLink>
+              </>
+            )}
             <Menu
-              sx={{ mt: '45px' }}
+              sx={{ mt: "45px" }}
               id="menu-appbar"
               anchorEl={anchorElUser}
               anchorOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               keepMounted
               transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
+                vertical: "top",
+                horizontal: "right",
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
               {settings.map((setting) => (
-
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">
-                  {setting === 'Logout' ?
-                    <RouterLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                      {setting}
-                    </RouterLink>
-                :
-                    setting
-}
-                    </Typography>
+                    {setting === "Logout" ? (
+                      <RouterLink
+                        to="/"
+                        style={{ textDecoration: "none", color: "inherit" }}
+                      >
+                        {setting}
+                      </RouterLink>
+                    ) : (
+                      setting
+                    )}
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
