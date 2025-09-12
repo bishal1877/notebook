@@ -29,18 +29,42 @@ app.get("/login" ,async (req, res) => {
   } 
 });
 
+app.get('/getnotes',async (req,res)=>{
+  try {
+    console.log(req.query,'   id');
+   let fd= await sql`select * from usernotes where userid=${req.query.id}`;
+   console.log(fd);
+    return res.json({ notes:fd });
+  } catch (error) {
+    alert("unsuccessful");
+  }
+})
+
+
+app.post('/addnotes',async(req,res)=>{
+try{
+  console.log(req.body);
+await sql`Insert into usernotes(userid,title,content) values(${req.body.userid},${req.body.title},${req.body.desc})`;
+return res.json({messgae:"Done"});
+}catch(error){
+alert ("unsuccessful");
+}
+
+})
+
+
 
 app.post('/signup',async (req,res)=>{
 try{
   console.log('yoyoy yoy',req.body);
 let result=await sql `Insert into usertable(name,email,password) values (${req.body.form.name},${req.body.form.email},${req.body.form.password}) returning *`
 if(result.length>0)
-  res.json({message:"done"});
+  res.status(200).json({message:"done"});
 else
-  res.json({message:"Not"});
+  res.status(401).json({message:"Not"});
 }catch(error){
 console.log("error:",error.message);
-res.json({message:"Internal Server Error"});
+res.status(400).json({message:"Internal Server Error"});
 }
 });
 
