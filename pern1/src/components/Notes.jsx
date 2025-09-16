@@ -4,36 +4,42 @@ import {Link,useNavigate} from 'react-router-dom';
 import OutCard from './OutCard';
 import Notecontext from "./Notescontext.jsx";
 
-function Notes() {
-let context=useContext(Notecontext);
-let navigate=useNavigate();
-console.log(context,"hbfyfye");
-useEffect(()=>
-{
-if(context.notes.userid==-1)
-  navigate('/');
-else
-{
-  context.setnotes((prevnote) => ({
-    ...prevnote,
-    alert: 0,
-  }));
+ function Notes() {
+  let context = useContext(Notecontext);
+  let navigate = useNavigate();
 
-  let getnote=async()=>{
-  let nota=await axios.get('http://localhost:3000/getnotes',{params:{
-  id:context.notes.userid
-  }});
-   context.setnotes((prevnote) => ({
-     ...prevnote,
-    note:nota.data.notes,
-   }));
+  useEffect(() => {
+    let fetchNotes = async () => {
+      if (context.notes.userid === -1) {
+        navigate("/"); 
+        return; 
+      }
 
-   console.log(context.notes.note,'   dekho',);
-}
-getnote();
-}}
-// eslint-disable-next-line react-hooks/exhaustive-deps
-,[]);
+      try {
+        setTimeout(()=>{context.setnotes((prevnote) => ({
+          ...prevnote,
+          alert: 0,
+        }))},1800);
+
+        const nota = await axios.get("http://localhost:3000/getnotes", {
+          params: {
+            id: context.notes.userid,
+          },
+        });
+
+        context.setnotes((prevnote) => ({
+          ...prevnote,
+          note: nota.data.notes,
+        }));
+      } catch (error) {
+        console.log('gvrcrr',error);
+      }
+    };
+
+    fetchNotes(); 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [context.notes.userid]);
+
 
   return (
     <>
@@ -50,13 +56,14 @@ getnote();
         }}
       >
 
-        {
+        {context.notes.note.length>0?
           context.notes.note.map((pot)=>{return <OutCard
           title={`${pot.title}`}
           content={`${pot.content}`}
           key={pot.notesid}
         />}
-        )
+        ):
+        <h3>Add notes first.</h3>
         }
       </div>
     </>

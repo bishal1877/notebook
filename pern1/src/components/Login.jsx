@@ -4,14 +4,17 @@ import axios from 'axios';
 import { useState,useContext,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Notecontext from './Notescontext.jsx'
+import bcrypt from 'bcryptjs';
 
 function Login() {
   let context=useContext(Notecontext);
   useEffect(()=>{
-context.setnotes((prevnote) => ({
+
+    context.setnotes((prevnote) => ({
   ...prevnote,
   alert: 0,
-  userid:-1
+  userid:-1,
+  note:[]
 }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
@@ -34,22 +37,42 @@ let handlesubmit = async (e) => {
   e.preventDefault();
   try {
 let response = await axios.get('http://localhost:3000/login',{params: {
-  email,password}
+  email}
   });
+
 if(response.status === 200){
   e.preventDefault();
-  console.log(response);
-  context.notes.userid=response.data.id;
-  context.setnotes((prevnote) => ({
-    ...prevnote,
-    alert: 1,
-    props: {
-      ...prevnote.props,
-      message: "Logged in Succesfully."
-    },
-  }));
-    console.log(context,'   log');
-  navigate('/home');
+  console.log(response.data, "   response");
+  //if (response.data.password == password)
+  if (bcrypt.compareSync(password, response.data.password)) {
+    context.setnotes((prevnote) => ({
+      ...prevnote,
+      alert: 1,
+      props: {
+        ...prevnote.props,
+        message: "Logged in Succesfully.",
+      },
+      userid: response.data.id,
+    }));
+    console.log(context, "   log");
+    navigate("/home");
+    return;
+  } else {
+    context.setnotes((prevnote) => ({
+      ...prevnote,
+      alert: 3,
+      props: {
+        ...prevnote.props,
+        message: `Enter valid details`,
+      },
+    }));
+    setTimeout(() => {
+      context.setnotes((prevnote) => ({
+        ...prevnote,
+        alert: 0,
+      }));
+    }, 2800);
+  }
 }
 } catch {
  context.setnotes((prevnote) => ({

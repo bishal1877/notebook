@@ -34,10 +34,10 @@ export default function Modaal(props) {
       >
         <Box sx={style}>
           <Typography id="modal-modal-title" variant="h6">
-            {props.title}
+            <span style={{ fontWeight: "bold" ,fontSize:"large"}}>Title:</span> {props.title}
           </Typography>
           <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {props.content}
+            <span style={{ fontWeight: "bold" }}>Content:</span> {props.content}
           </Typography>
           <Button onClick={handleClose} style={{ marginTop: "10px" }}>
             Close

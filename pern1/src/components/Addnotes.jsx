@@ -35,8 +35,9 @@ export default function Addnotes() {
   }));
   };
 
-let handlesubmit=async ()=>{
-await axios.post('http://localhost:3000/addnotes',{
+let handlesubmit=async (e)=>{
+  e.preventDefault();
+let response=await axios.post('http://localhost:3000/addnotes',{
 userid:context.notes.userid,
 title:notes.title,desc:notes.desc
 });
@@ -44,7 +45,7 @@ title:notes.title,desc:notes.desc
 let totnot = {
   content: notes.desc,
   title: notes.title,
-  notesid: 100000,
+  notesid: response.data.notesid,
   userid: context.notes.userid
 };
 
