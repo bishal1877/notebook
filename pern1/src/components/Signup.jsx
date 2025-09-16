@@ -45,6 +45,7 @@ let handlesubmit=async (e)=>{
   form.password=hash;
   form.cofpass=hash;
   console.log('ho gya');
+  try{
 let result=await axios.post('http://localhost:3000/signup',{form});
 if(result.status==200)
 {
@@ -56,7 +57,19 @@ if(result.status==200)
       message:"Account created Successfully"
     }
   }));
-
+}
+}
+catch{
+  context.setnotes((prevnote) => ({
+    ...prevnote,
+    alert: 4,
+    props: {
+      ...prevnote.props,
+      message: "Enter valid details",
+    },
+  }));
+}
+finally{
   setTimeout(() => {
     context.setnotes((prevnote) => ({
       ...prevnote,
@@ -69,7 +82,7 @@ setform(  {name:'',
   cofpass:''
   })
 }
-  
+ 
 }
 
   return (
