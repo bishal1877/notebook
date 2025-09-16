@@ -14,11 +14,11 @@ app.get("/login" ,async (req, res) => {
   try {
         console.log(req.query, "  jbygyy ");
     const result = await sql`SELECT password,id FROM usertable WHERE email = ${req.query.email}`;
-    console.log(result[0].password,"  hujhg");
+    
  //if(bcrypt.compareSync(req.query.password,result[0].password))
-  if(result[0].password==req.query.password)
-  {
-    res.status(200).json({ message: "Login successful" ,id:result[0].id});
+  if(result.length>0)
+  {console.log(result[0].password, "  hujhg");
+    return res.status(200).json({ message: "Login successful" ,password:result[0].password,id:result[0].id});
  }
     else{
     res.status(401).json({ message: "Invalid credentials" });
@@ -44,8 +44,8 @@ app.get('/getnotes',async (req,res)=>{
 app.post('/addnotes',async(req,res)=>{
 try{
   console.log(req.body);
-await sql`Insert into usernotes(userid,title,content) values(${req.body.userid},${req.body.title},${req.body.desc})`;
-return res.json({messgae:"Done"});
+let response=await sql`Insert into usernotes(userid,title,content) values(${req.body.userid},${req.body.title},${req.body.desc}) returning *`;
+return res.json({messgae:"Done",notesid:response[0].notesid});
 }catch(error){
 alert ("unsuccessful");
 }
