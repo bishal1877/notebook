@@ -42,14 +42,12 @@ setform({...form,[e.target.name]:e.target.value});
 let handlesubmit=async (e)=>{
   e.preventDefault();
   const hash = bcrypt.hashSync(form.password, 2);
-  console.log(form.password,"  ",hash);
   form.password=hash;
   form.cofpass=hash;
   console.log('ho gya');
   try{
     setProgress(30);
 let result=await axios.post('https://note-pjm2.onrender.com/signup',{form});
-console.log(result);
 setProgress(60);
 if(result.status==200)
 {
