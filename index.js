@@ -13,7 +13,6 @@ app.use(express.urlencoded({ extended: true }));
  app.use(cors());
 app.get("/login" ,async (req, res) => {
   try {
-        console.log(req.body, "  jbygyy ",req.query);
     const result = await sql`SELECT password,id FROM usertable WHERE email = ${req.query.email}`;
     
  //if(bcrypt.compareSync(req.query.password,result[0].password))
@@ -21,22 +20,18 @@ app.get("/login" ,async (req, res) => {
     result.length > 0 &&
     bcrypt.compareSync(req.query.password, result[0].password)
   ) {
-    console.log(result[0].password, "  hujhg");
     return res.status(200).json({ message: "Valid User" ,id:result[0].id });
   } else {
     res.status(401).json({ message: "Invalid credentials" });
   }  
   } catch (error) {
-    console.error("Error executing query:", error);
     res.status(500).json({ message: "Internal Server Error" });
   } 
 });
 
 app.get('/getnotes',async (req,res)=>{
   try {
-    console.log(req.query,'   id');
    let fd= await sql`select * from usernotes where userid=${req.query.id}`;
-   console.log(fd);
     return res.json({ notes:fd });
   } catch (error) {
     alert("unsuccessful");
@@ -46,7 +41,6 @@ app.get('/getnotes',async (req,res)=>{
 
 app.post('/addnotes',async(req,res)=>{
 try{
-  console.log(req.body);
 let response=await sql`Insert into usernotes(userid,title,content) values(${req.body.userid},${req.body.title},${req.body.desc}) returning *`;
 return res.json({messgae:"Done",notesid:response[0].notesid});
 }catch(error){
