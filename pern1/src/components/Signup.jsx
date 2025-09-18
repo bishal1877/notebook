@@ -48,7 +48,7 @@ let handlesubmit=async (e)=>{
   console.log('ho gya');
   try{
     setProgress(30);
-let result=await axios.post('http://localhost:3000/signup',{form});
+let result=await axios.post('https://note-pjm2.onrender.com/signup',{form});
 console.log(result);
 setProgress(60);
 if(result.status==200)
