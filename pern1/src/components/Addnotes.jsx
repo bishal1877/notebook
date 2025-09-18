@@ -39,7 +39,7 @@ let handlesubmit=async (e)=>{
   e.preventDefault();
   try{
   
-let response=await axios.post('http://localhost:3000/addnotes',{
+let response=await axios.post('https://note-pjm2.onrender.com/addnotes',{
 userid:context.notes.userid,
 title:notes.title,desc:notes.desc
 });
