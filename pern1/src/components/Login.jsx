@@ -17,7 +17,6 @@ function Login() {
 }));
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-  console.log(context,"  jhyuy");
 const navigate=useNavigate();
 let [email, setEmail] = useState("");
 let [password, setPassword] = useState("");
@@ -50,7 +49,6 @@ if(response.status === 200){
       },
       userid: response.data.id,
     }));
-    console.log(context, "   log");
     navigate("/home");
     return;
   } 
