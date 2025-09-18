@@ -64,20 +64,21 @@ setProgress(60);
           progress={progress}
           onLoaderFinished={() => setProgress(0)}
         />
-        ;
-        {context.notes.note.length > 0 ? (
-          context.notes.note.map((pot) => {
-            return (
-              <OutCard
-                title={`${pot.title}`}
-                content={`${pot.content}`}
-                key={pot.notesid}
-              />
-            );
-          })
-        ) : (
-          <h3>Add notes first.</h3>
-        )}
+        < >
+          {context.notes.note.length > 0 ? (
+            context.notes.note.map((pot) => {
+              return (
+                <OutCard
+                  title={`${pot.title}`}
+                  content={`${pot.content}`}
+                  key={pot.notesid}
+                />
+              );
+            })
+          ) : (
+            <h3>Add notes first.</h3>
+          )}
+        </>
       </div>
     </>
   );

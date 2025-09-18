@@ -37,6 +37,8 @@ export default function Addnotes() {
 
 let handlesubmit=async (e)=>{
   e.preventDefault();
+  try{
+  
 let response=await axios.post('http://localhost:3000/addnotes',{
 userid:context.notes.userid,
 title:notes.title,desc:notes.desc
@@ -58,7 +60,19 @@ context.setnotes((prevnote) => ({
   },
   note:[...prevnote.note,totnot]
 }));
-
+  }catch(error){
+    context.setnotes((prevnote) => ({
+      ...prevnote,
+      alert: 4,
+      props: {
+        ...prevnote.props,
+        message: error.response.data.message,
+      }
+    }));
+  }
+  finally{
+setstatedesc(1);
+setstatetitle(1); 
 setTimeout(() => {
   context.setnotes((prevnote) => ({
     ...prevnote,
@@ -69,7 +83,7 @@ setnotes(
     {title:"",
     desc:""});
 }
-
+}
   return (
     <div
       style={{
@@ -84,7 +98,7 @@ setnotes(
         <h3>Enter the note you want to add</h3>
       </div>
 
-      <form>
+      <form  onSubmit={handlesubmit}  >
         <div style={{ display: "flex" }}>
           <label htmlFor="title" style={{ margin: "0px", padding: "0" }}>
             Title :
@@ -120,7 +134,7 @@ setnotes(
           <Button
             variant="contained"
             style={{ marginBottom: "8px", height: "3.5vh", marginLeft: "10px" }}
-            onClick={handlesubmit}
+           type="submit"
           >
             Submit
           </Button>

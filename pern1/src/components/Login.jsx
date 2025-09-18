@@ -4,7 +4,6 @@ import axios from 'axios';
 import { useState,useContext,useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Notecontext from './Notescontext.jsx'
-import bcrypt from 'bcryptjs';
 
 function Login() {
   let context=useContext(Notecontext);
@@ -36,15 +35,12 @@ let handlepasswordChange = (e) => {
 let handlesubmit = async (e) => {
   e.preventDefault();
   try {
-let response = await axios.get('http://localhost:3000/login',{params: {
-  email}
+let response = await axios.get('http://localhost:3000/login',{params:{
+  email:email,password:password
+  }
   });
 
 if(response.status === 200){
-  e.preventDefault();
-  console.log(response.data, "   response");
-  //if (response.data.password == password)
-  if (bcrypt.compareSync(password, response.data.password)) {
     context.setnotes((prevnote) => ({
       ...prevnote,
       alert: 1,
@@ -57,30 +53,15 @@ if(response.status === 200){
     console.log(context, "   log");
     navigate("/home");
     return;
-  } else {
-    context.setnotes((prevnote) => ({
-      ...prevnote,
-      alert: 3,
-      props: {
-        ...prevnote.props,
-        message: `Enter valid details`,
-      },
-    }));
-    setTimeout(() => {
-      context.setnotes((prevnote) => ({
-        ...prevnote,
-        alert: 0,
-      }));
-    }, 2800);
-  }
-}
-} catch {
+  } 
+
+} catch (error){
  context.setnotes((prevnote) => ({
    ...prevnote,
    alert: 3,
    props: {
      ...prevnote.props,
-     message: `Error logging in`,
+     message:  error.response.data.message ,
    },
  }));
  setTimeout(() => {

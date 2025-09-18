@@ -3,12 +3,13 @@ import { Container, Box, Typography, TextField, Button } from '@mui/material';
 import axios from "axios";
 import bcrypt from "bcryptjs";
 import Notecontext from "./Notescontext.jsx";
-
+import LoadingBar from 'react-top-loading-bar';
 
 
 
 function Signup() {
  let context = useContext(Notecontext);
+ let [progress,setProgress]=useState(0);
 let [form,setform]=useState({
   name:'',
   email:'',
@@ -46,7 +47,10 @@ let handlesubmit=async (e)=>{
   form.cofpass=hash;
   console.log('ho gya');
   try{
+    setProgress(30);
 let result=await axios.post('http://localhost:3000/signup',{form});
+console.log(result);
+setProgress(60);
 if(result.status==200)
 {
   context.setnotes((prevnote) => ({
@@ -57,19 +61,23 @@ if(result.status==200)
       message:"Account created Successfully"
     }
   }));
+  setProgress(80);
 }
 }
-catch{
+catch(error){
+  console.log(error);
+  setProgress(80);
   context.setnotes((prevnote) => ({
     ...prevnote,
     alert: 4,
     props: {
       ...prevnote.props,
-      message: "Enter valid details",
+      message: error.response.data.message,
     },
   }));
 }
 finally{
+  setProgress(100);
   setTimeout(() => {
     context.setnotes((prevnote) => ({
       ...prevnote,
@@ -87,6 +95,11 @@ setform(  {name:'',
 
   return (
     <Container component="main" maxWidth="xs">
+      <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <Box
         sx={{
           marginTop: 8,
@@ -157,7 +170,7 @@ setform(  {name:'',
             value={form.cofpass}
           />
           <Button
-          type="submit"
+            type="submit"
             fullWidth
             variant="contained"
             sx={{ mt: 3, mb: 2 }}

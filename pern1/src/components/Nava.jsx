@@ -20,6 +20,7 @@ const settings = ['Profile', 'Logout'];
 
 function Nava() {
   let check=useContext(Notecontext);
+  console.log(check.notes.userid,"  id");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
 
@@ -118,7 +119,7 @@ function Nava() {
               textDecoration: "none",
             }}
           >
-            LOGO
+            Notebook
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
@@ -135,19 +136,21 @@ function Nava() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {check.notes.userid > 0 ? (
+            {
+         
+check.notes.userid > 0 ? (
               <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                   <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 </IconButton>
               </Tooltip>
             ) : (
-              <>
+              <div style={{ display: "flex", gap: "10px" }}>
                 <RouterLink to="/">
                   <Button
                     variant="contained"
                     color="success"
-                    style={{ marginInline: "8px" }}
+                    style={{ width:"2vw" }}
                   >
                     Login
                   </Button>
@@ -156,12 +159,12 @@ function Nava() {
                   <Button
                     variant="contained"
                     color="success"
-                    style={{ marginInline: "8px" }}
+                    style={{ width:"2vw" }}
                   >
                     Signup
                   </Button>
                 </RouterLink>
-              </>
+              </div>
             )}
             <Menu
               sx={{ mt: "45px" }}
