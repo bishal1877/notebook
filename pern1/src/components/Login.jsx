@@ -44,7 +44,6 @@ fetchd();
    
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-const navigate=useNavigate();
 let [email, setEmail] = useState("");
 let [password, setPassword] = useState("");
 
