@@ -9,7 +9,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(
   cors({
-    origin: "https://notebook-pr7y.onrender.com/", // your frontend URL
+    origin: "https://notebook-pr7y.onrender.com", // your frontend URL
     credentials: true,
   })
 );
