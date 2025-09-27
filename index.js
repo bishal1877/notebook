@@ -7,9 +7,17 @@ import session from "express-session";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.use(
-  cors()
-);
+const corsOptions = {
+  // Replace with the exact origin of your frontend application
+  origin: 'https://notebook-pr7y.onrender.com', 
+  // Allow credentials (cookies/sessions) to be sent
+  credentials: true, 
+  // You might also need to explicitly list allowed methods and headers
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  allowedHeaders: 'Content-Type,Authorization' 
+};
+
+app.use(cors(corsOptions));
 
 app.use(session({
   secret: 'yoyo',
