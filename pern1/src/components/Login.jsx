@@ -6,15 +6,42 @@ import { useNavigate } from 'react-router-dom';
 import Notecontext from './Notescontext.jsx'
 
 function Login() {
-  let context=useContext(Notecontext);
+   let context=useContext(Notecontext);
+  const navigate = useNavigate();
   useEffect(()=>{
 
+async function fetchd (){
+console.log('fetchd called');
+let response = await axios.get("https://note-pjm2.onrender.com/checksession", {
+  withCredentials: true
+});
+
+if(response.data.loggedIn === true){
     context.setnotes((prevnote) => ({
-  ...prevnote,
-  alert: 0,
-  userid:-1,
-  note:[]
-}));
+      ...prevnote,
+      alert: 0,
+      props: {
+        ...prevnote.props,
+        message: "Logged in Succesfully.",
+      },
+      userid: response.data.id,
+    }));
+    console.log(context, "   log");
+    navigate("/home");
+    return;
+  }
+  else{
+ context.setnotes((prevnote) => ({
+   ...prevnote,
+   alert: 0,
+   userid: -1,
+   note: [],
+ }));
+  }
+  
+}
+fetchd();
+   
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
 const navigate=useNavigate();
