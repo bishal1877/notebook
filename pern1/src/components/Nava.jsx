@@ -14,11 +14,14 @@ import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Notecontext from './Notescontext'
 import { Link as RouterLink } from 'react-router-dom'; // Import Link and rename to avoid conflict
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const pages = ['Home', 'About'];
 const settings = ['Profile', 'Logout'];
 
 function Nava() {
+  const navigate=useNavigate();
   let check=useContext(Notecontext);
   console.log(check.notes.userid,"  id");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
@@ -27,7 +30,16 @@ function Nava() {
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
-
+ const handlelogout = async () => {
+   await axios.get("http://localhost:3000/logout", { withCredentials: true });
+   // Clear user info from context/state
+   check.setnotes((prev) => ({
+     ...prev,
+     userid: -1,
+     note: [],
+   }));
+   navigate("/");
+ };
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
   };
@@ -189,6 +201,7 @@ check.notes.userid > 0 ? (
                       <RouterLink
                         to="/"
                         style={{ textDecoration: "none", color: "inherit" }}
+                        onClick={handlelogout}
                       >
                         {setting}
                       </RouterLink>

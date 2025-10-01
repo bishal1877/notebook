@@ -12,7 +12,7 @@ const style = {
   width: '50%',
   bgcolor: 'background.paper',
   border: '2px solid #000',
-  boxShadow: 24,
+  boxShadow: 28,
   p: 4,
 };
 
@@ -24,7 +24,7 @@ export default function Modaal(props) {
   return (
     <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
       <Button onClick={handleOpen} style={{ fontSize: "small" }}>
-        Read More
+        Open
       </Button>
       <Modal
         open={open}

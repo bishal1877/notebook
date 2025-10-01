@@ -28,26 +28,27 @@ setProgress(30);
           params: {
             id: context.notes.userid,
           },
+          withCredentials: true
         });
 setProgress(60);
         context.setnotes((prevnote) => ({
           ...prevnote,
           note: nota.data.notes,
         }));
-      } catch (error) {
-        console.log('gvrcrr',error);
+      } catch  {
+        navigate("/");
       }
       finally {setProgress(100);}
     };
 
     fetchNotes(); 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context.notes.userid]);
+  }, []);
 
 
   return (
     <>
-      <h1 style={{ textAlign: "center", fontSize: "x-large", margin: "5vh" }}>
+      <h1 style={{ textAlign: "center", fontSize: "x-large" }}>
         Your Notes are here
       </h1>
       <div
@@ -72,6 +73,7 @@ setProgress(60);
                   title={`${pot.title}`}
                   content={`${pot.content}`}
                   key={pot.notesid}
+                  id={pot.notesid}
                 />
               );
             })

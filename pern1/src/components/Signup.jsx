@@ -48,7 +48,10 @@ let handlesubmit=async (e)=>{
   console.log('ho gya');
   try{
     setProgress(30);
-let result=await axios.post('http://localhost:3000/signup',{form});
+let result = await axios.post("http://localhost:3000/signup", {
+  form,
+withCredentials:true
+});
 console.log(result);
 setProgress(60);
 if(result.status==200)

@@ -7,18 +7,44 @@ import Notecontext from './Notescontext.jsx'
 
 function Login() {
   let context=useContext(Notecontext);
+  const navigate = useNavigate();
   useEffect(()=>{
 
+async function fetchd (){
+console.log('fetchd called');
+let response = await axios.get("http://localhost:3000/checksession", {
+  withCredentials: true
+});
+
+if(response.data.loggedIn === true){
     context.setnotes((prevnote) => ({
-  ...prevnote,
-  alert: 0,
-  userid:-1,
-  note:[]
-}));
+      ...prevnote,
+      alert: 0,
+      props: {
+        ...prevnote.props,
+        message: "Logged in Succesfully.",
+      },
+      userid: response.data.id,
+    }));
+    navigate("/home");
+    return;
+  }
+  else{
+ context.setnotes((prevnote) => ({
+   ...prevnote,
+   alert: 0,
+   userid: -1,
+   note: [],
+ }));
+  }
+  
+}
+fetchd();
+   
   // eslint-disable-next-line react-hooks/exhaustive-deps
   },[]);
-  console.log(context,"  jhyuy");
-const navigate=useNavigate();
+
+
 let [email, setEmail] = useState("");
 let [password, setPassword] = useState("");
 
@@ -35,10 +61,13 @@ let handlepasswordChange = (e) => {
 let handlesubmit = async (e) => {
   e.preventDefault();
   try {
-let response = await axios.get('http://localhost:3000/login',{params:{
-  email:email,password:password
-  }
-  });
+let response = await axios.get("http://localhost:3000/login", {
+  params: {
+    email: email,
+    password: password,
+  },
+  withCredentials: true
+});
 
 if(response.status === 200){
     context.setnotes((prevnote) => ({

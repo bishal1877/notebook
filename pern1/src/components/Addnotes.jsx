@@ -2,10 +2,11 @@ import React, { useState,useContext } from "react";
 import axios from "axios";
 import Button from "@mui/material/Button";
 import Notecontext from "./Notescontext.jsx";
-
+import LoadingBar from "react-top-loading-bar";
 
 export default function Addnotes() {
   let [statetitle, setstatetitle] = useState(1);
+  let [progress, setProgress] = useState(0);
   let [notes,setnotes]=useState({
     title:"",
     desc:""
@@ -38,12 +39,14 @@ export default function Addnotes() {
 let handlesubmit=async (e)=>{
   e.preventDefault();
   try{
-  
-let response=await axios.post('http://localhost:3000/addnotes',{
-userid:context.notes.userid,
-title:notes.title,desc:notes.desc
+  setProgress(30);
+let response = await axios.post("http://localhost:3000/addnotes", {
+  userid: context.notes.userid,
+  title: notes.title,
+  desc: notes.desc,
+},{withCredentials:true
 });
-
+setProgress(60);
 let totnot = {
   content: notes.desc,
   title: notes.title,
@@ -60,6 +63,7 @@ context.setnotes((prevnote) => ({
   },
   note:[...prevnote.note,totnot]
 }));
+setProgress(70);
   }catch(error){
     context.setnotes((prevnote) => ({
       ...prevnote,
@@ -72,7 +76,8 @@ context.setnotes((prevnote) => ({
   }
   finally{
 setstatedesc(1);
-setstatetitle(1); 
+setstatetitle(1);
+setProgress(100); 
 setTimeout(() => {
   context.setnotes((prevnote) => ({
     ...prevnote,
@@ -94,11 +99,16 @@ setnotes(
         fontSize: "x-large",
       }}
     >
+      <LoadingBar
+        color="#f11946"
+        progress={progress}
+        onLoaderFinished={() => setProgress(0)}
+      />
       <div>
         <h3>Enter the note you want to add</h3>
       </div>
 
-      <form  onSubmit={handlesubmit}  >
+      <form onSubmit={handlesubmit}>
         <div style={{ display: "flex" }}>
           <label htmlFor="title" style={{ margin: "0px", padding: "0" }}>
             Title :
@@ -130,11 +140,17 @@ setnotes(
             style={{ marginLeft: "1vw", width: "30vw" }}
           ></textarea>
         </div>
-        <div   style={{ display: "flex", justifyContent: "center" ,marginTop:"2vh" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "2vh",
+          }}
+        >
           <Button
             variant="contained"
             style={{ marginBottom: "8px", height: "3.5vh", marginLeft: "10px" }}
-           type="submit"
+            type="submit"
           >
             Submit
           </Button>
