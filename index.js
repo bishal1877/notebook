@@ -156,7 +156,7 @@ if (
   !req.body.form.password
 ) {
   return res.status(400).json({ message: "Invalid credentials" });
-}console.log(req.body.form, "signup1");
+}console.log(req.body.form, "signup1",process.env.SMTPS," ",process.env.email," ",process.env.Pass);
 let existingUser=await sql`Select * from usertable where email=${req.body.form.email}`;
 if(existingUser.length>0)
   return res.status(401).json({message:"User already exists"});
