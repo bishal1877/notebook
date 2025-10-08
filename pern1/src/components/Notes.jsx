@@ -24,7 +24,7 @@ let [progress, setProgress] = useState(0);
           alert: 0,
         }))},1800);
 setProgress(30);
-        const nota = await axios.get("http://localhost:3000/getnotes", {
+        const nota = await axios.get("https://notes-tvxk.onrender.com/getnotes", {
           withCredentials: true
         });
         setProgress(60);
