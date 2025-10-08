@@ -152,8 +152,8 @@ const errors = validationResult(req);
 if (
   !errors.isEmpty() ||
   !req.body.form.name ||
-  req.body.form.email ||
-  req.body.form.password
+  !req.body.form.email ||
+  !req.body.form.password
 ) {
   return res.status(400).json({ message: "Invalid credentials" });
 }
