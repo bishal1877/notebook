@@ -170,7 +170,7 @@ if(result.length>0)
       text:`Hello ${req.body.form.name},\nYour account has been created successfully.\n\nThank you!`
     }
     await transporter.sendMail(mailopt);
-    console.log(req.body.form);
+    console.log(req.body.form, "signup");
     return res.status(200).json({message:"Account created Successfully"});}
 else
   res.status(401).json({message:"Not"});
