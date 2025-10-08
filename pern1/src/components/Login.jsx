@@ -11,7 +11,6 @@ function Login() {
   useEffect(()=>{
 
 async function fetchd (){
-console.log('fetchd called');
 let response = await axios.get("http://localhost:3000/checksession", {
   withCredentials: true
 });
@@ -78,8 +77,8 @@ if(response.status === 200){
         message: "Logged in Succesfully.",
       },
       userid: response.data.id,
+      naam: response.data.naam,
     }));
-    console.log(context, "   log");
     navigate("/home");
     return;
   } 
@@ -127,11 +126,11 @@ setPassword("");
             id="email"
             label="Email Address"
             name="email"
-            autoComplete="email"
             autoFocus
             type="email"
             value={email}
             onChange={handleemailChange}
+            autoComplete="email"
           />
           <TextField
             margin="normal"

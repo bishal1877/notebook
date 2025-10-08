@@ -25,20 +25,37 @@ let [progress, setProgress] = useState(0);
         }))},1800);
 setProgress(30);
         const nota = await axios.get("http://localhost:3000/getnotes", {
-          params: {
-            id: context.notes.userid,
-          },
           withCredentials: true
         });
-setProgress(60);
-        context.setnotes((prevnote) => ({
-          ...prevnote,
-          note: nota.data.notes,
-        }));
-      } catch  {
-        navigate("/");
+        setProgress(60);
+        console.log(nota);
+if (nota.data.success == true && !nota.data.message) {
+  context.setnotes((prevnote) => ({
+    ...prevnote,
+    note: nota.data.notes,
+    naam: nota.data.naam,
+  }));
+} else if (nota.data.success == true && nota.data.message)
+   navigate("/");
+else {
+  context.setnotes((prevnote) => ({
+    ...prevnote,
+    alert: 4,
+    props: {
+      ...prevnote.props,
+      message: "some problem",
+    },
+  }));
+}
+      } 
+      finally {setProgress(100);
+        setTimeout(() => {
+          context.setnotes((prevnote) => ({
+            ...prevnote,
+            alert: 0,
+          }));
+        }, 1500);
       }
-      finally {setProgress(100);}
     };
 
     fetchNotes(); 

@@ -40,12 +40,17 @@ let handlesubmit=async (e)=>{
   e.preventDefault();
   try{
   setProgress(30);
-let response = await axios.post("http://localhost:3000/addnotes", {
-  userid: context.notes.userid,
-  title: notes.title,
-  desc: notes.desc,
-},{withCredentials:true
-});
+let response = await axios.post(
+  "http://localhost:3000/addnotes",
+  {
+    userid: context.notes.userid,
+    title: notes.title,
+    desc: notes.desc,
+  },
+  {
+    withCredentials: true
+  }
+);
 setProgress(60);
 let totnot = {
   content: notes.desc,

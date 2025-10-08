@@ -7,7 +7,8 @@ function Notestate(props) {
    let [notes,setnotes]=useState({note:[],
    props:{message:"",type:""},
    alert:0,
-   userid:-1});
+   userid:-1,
+   naam:""});
 
     return (
         <Notecontext.Provider value={{notes,setnotes}}>

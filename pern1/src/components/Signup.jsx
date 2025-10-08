@@ -45,14 +45,12 @@ let handlesubmit=async (e)=>{
   console.log(form.password,"  ",hash);
   form.password=hash;
   form.cofpass=hash;
-  console.log('ho gya');
   try{
     setProgress(30);
 let result = await axios.post("http://localhost:3000/signup", {
-  form,
-withCredentials:true
+  form},
+{withCredentials:true
 });
-console.log(result);
 setProgress(60);
 if(result.status==200)
 {
@@ -68,7 +66,6 @@ if(result.status==200)
 }
 }
 catch(error){
-  console.log(error);
   setProgress(80);
   context.setnotes((prevnote) => ({
     ...prevnote,

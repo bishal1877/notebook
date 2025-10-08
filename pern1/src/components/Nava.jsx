@@ -1,4 +1,4 @@
-import React,{useContext} from 'react';
+import React,{useContext, useEffect} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -13,20 +13,25 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import Notecontext from './Notescontext'
-import { Link as RouterLink } from 'react-router-dom'; // Import Link and rename to avoid conflict
+import { Link as RouterLink, useLocation } from 'react-router-dom'; // Import Link and rename to avoid conflict
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 const pages = ['Home', 'About'];
 const settings = ['Profile', 'Logout'];
 
 function Nava() {
+       let [alpha, setalpha] = useState('');
   const navigate=useNavigate();
+const locate=useLocation();
   let check=useContext(Notecontext);
-  console.log(check.notes.userid,"  id");
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
-
+  useEffect(()=>{ 
+if(check.notes.userid>=0 )
+  setalpha((check.notes.naam.slice(0, 1)).toUpperCase());
+  }); 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
   };
@@ -37,6 +42,7 @@ function Nava() {
      ...prev,
      userid: -1,
      note: [],
+     naam: "",
    }));
    navigate("/");
  };
@@ -148,34 +154,46 @@ function Nava() {
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
-            {
-         
-check.notes.userid > 0 ? (
-              <Tooltip title="Open settings">
+            {check.notes.userid > 0 ? (
+              <Tooltip title="Open menu">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                  <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                  <div
+                    style={{
+                      display: "flex",
+                      color: "white ",
+                      border: " 2px solid black",
+                      borderRadius: "50%  50%",
+                      backgroundColor: "black",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <span style={{ width: "40px", height: "max-content",fontSize:"30px" }}>
+                      
+                      {`${alpha}`}
+                    </span>
+                  </div>
                 </IconButton>
               </Tooltip>
             ) : (
               <div style={{ display: "flex", gap: "10px" }}>
-                <RouterLink to="/">
+               {locate.pathname!='/' && <RouterLink to="/">
                   <Button
                     variant="contained"
                     color="success"
-                    style={{ width:"2vw" }}
+                    style={{ width: "2vw" }}
                   >
                     Login
                   </Button>
-                </RouterLink>
-                <RouterLink to="/signup">
+                </RouterLink>}
+                {locate.pathname!='/signup'&&  <RouterLink to="/signup">
                   <Button
                     variant="contained"
                     color="success"
-                    style={{ width:"2vw" }}
+                    style={{ width: "2vw" }}
                   >
                     Signup
                   </Button>
-                </RouterLink>
+                </RouterLink>}
               </div>
             )}
             <Menu
