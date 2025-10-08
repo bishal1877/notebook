@@ -52,6 +52,7 @@ let result = await axios.post("https://notes-tvxk.onrender.com/signup", {
 {withCredentials:true
 });
 setProgress(60);
+   console.log(result);
 if(result.status==200)
 {
   context.setnotes((prevnote) => ({
