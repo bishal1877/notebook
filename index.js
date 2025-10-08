@@ -51,8 +51,8 @@ app.get("/logout", (req, res) => {
   {if (req.cookies)
     res.clearCookie("token", {
       httpOnly: true,
-      secure: "false",
-      sameSite: "strict",
+      secure: "true",
+      sameSite: "none",
     }); 
    return  res.status(200).json({ message: "Logged out" });
   } catch(error)
@@ -76,8 +76,8 @@ console.log(req.query);
       const token=jwt.sign({id:result[0].id,naam:result[0].name},process.env.SECRET);
       res.cookie('token',token,{
         httpOnly:true,
-        secure:"false",
-        sameSite:"strict"
+        secure:"true",
+        sameSite:"none"
       });
       return res
         .status(200)
