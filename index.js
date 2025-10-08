@@ -156,11 +156,12 @@ if (
   !req.body.form.password
 ) {
   return res.status(400).json({ message: "Invalid credentials" });
-}
+}console.log(req.body.form, "signup1");
 let existingUser=await sql`Select * from usertable where email=${req.body.form.email}`;
 if(existingUser.length>0)
   return res.status(401).json({message:"User already exists"});
-let result=await sql `Insert into usertable(name,email,password) values (${req.body.form.name},${req.body.form.email},${req.body.form.password}) returning *`
+console.log(req.body.form, "signup2");
+  let result=await sql `Insert into usertable(name,email,password) values (${req.body.form.name},${req.body.form.email},${req.body.form.password}) returning *`
 if(result.length>0)
   {
     const mailopt={
