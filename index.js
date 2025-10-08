@@ -16,7 +16,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 app.use(
   cors({
-    origin: "http://localhost:5173", // your frontend URL
+    origin: "https://notestaker-2m8z.onrender.com",
     credentials: true,
   })
 );
