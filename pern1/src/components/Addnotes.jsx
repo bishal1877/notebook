@@ -41,7 +41,7 @@ let handlesubmit=async (e)=>{
   try{
   setProgress(30);
 let response = await axios.post(
-  "http://localhost:3000/addnotes",
+  "https://notes-tvxk.onrender.com/addnotes",
   {
     userid: context.notes.userid,
     title: notes.title,
