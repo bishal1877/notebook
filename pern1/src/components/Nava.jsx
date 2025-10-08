@@ -36,7 +36,7 @@ if(check.notes.userid>=0 )
     setAnchorElNav(event.currentTarget);
   };
  const handlelogout = async () => {
-   await axios.get("http://localhost:3000/logout", { withCredentials: true });
+   await axios.get("https://notes-tvxk.onrender.com/logout", { withCredentials: true });
    // Clear user info from context/state
    check.setnotes((prev) => ({
      ...prev,
