@@ -47,7 +47,7 @@ let handlesubmit=async (e)=>{
   form.cofpass=hash;
   try{
     setProgress(30);
-let result = await axios.post("http://localhost:3000/signup", {
+let result = await axios.post("https://notes-tvxk.onrender.com/signup", {
   form},
 {withCredentials:true
 });
