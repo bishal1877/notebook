@@ -34,7 +34,7 @@ let handledelete = async () => {
     let result = window.confirm("Are you sure you want to delete this note?");
     if (result === false) return;
     setProgress(30);
-    let response = await axios.delete("http://localhost:3000/deletenotes", {
+    let response = await axios.delete("https://notes-tvxk.onrender.com/deletenotes", {
       params: {
         id: props.id,
       },
