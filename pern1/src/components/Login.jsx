@@ -11,7 +11,7 @@ function Login() {
   useEffect(()=>{
 
 async function fetchd (){
-let response = await axios.get("http://localhost:3000/checksession", {
+let response = await axios.get("https://notes-tvxk.onrender.com/checksession", {
   withCredentials: true
 });
 
@@ -60,7 +60,7 @@ let handlepasswordChange = (e) => {
 let handlesubmit = async (e) => {
   e.preventDefault();
   try {
-let response = await axios.get("http://localhost:3000/login", {
+let response = await axios.get("https://notes-tvxk.onrender.com/login", {
   params: {
     email: email,
     password: password,
